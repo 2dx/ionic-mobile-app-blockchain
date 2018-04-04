@@ -1,0 +1,24 @@
+<!--
+  Generated template for the AddaccountPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>アカウントの追加</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+	<button ion-button full (click)="scan()">QRコードを読み取る</button>
+  	<ion-input type="text" [(ngModel)]="privateKey" placeholder="もしくは秘密鍵を16進文字列で入力" (change)=privateKeyChanged()></ion-input>
+  	<ion-input disabled type="text" [(ngModel)]="publicKey"></ion-input>
+  	<ion-input disabled type="text" [(ngModel)]="address"></ion-input>
+  	{{format}}
+  	<button ion-button full (click)="addAccount()" *ngIf="privateKey">アカウントを追加</button>
+</ion-content>

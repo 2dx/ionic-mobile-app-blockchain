@@ -1,0 +1,94 @@
+<!-- <ion-header>
+  <ion-navbar>
+    <ion-title>{{address}}</ion-title>
+  </ion-navbar>
+</ion-header> -->
+
+<ion-content padding>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingText="引っ張って更新"
+      refreshingText="更新中...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <div padding>
+  <ion-segment [(ngModel)]="mode">
+    <ion-segment-button value="history">
+      最近の送受信履歴
+    </ion-segment-button>
+    <ion-segment-button value="unconfirmed">
+      未承認トランザクション
+    </ion-segment-button>
+    <ion-segment-button value="gen">
+      保有トークン
+    </ion-segment-button>
+  </ion-segment>
+</div>
+
+<div [ngSwitch]="mode">
+
+  <ion-list *ngSwitchCase="'history'">
+    <ion-card *ngFor="let tx of txs" (click)="txinfo(tx)">
+      <button ion-item>
+        <p style="font-size: 70%;">{{tx.date}}</p>
+        <p>{{tx.sender}}</p>
+        <p>{{tx.quantity}}</p>
+        <span *ngIf="tx.type=='outgoing'">
+          <p *ngFor="let m of tx.mosaics">
+            <span *ngIf="mosaics[m.id] != undefined">
+              <span style="color: crimson;"><b>-{{m.quantity}}</b> {{mosaics[m.id].unit}}</span>
+              <p style="font-family: monospace;">({{mosaics[m.id].name}} / ID:{{m.id.toUpperCase()}})</p>
+            </span>
+          </p>
+        </span>
+        <span *ngIf="tx.type=='incoming'">
+          <p *ngFor="let m of tx.mosaics">
+            <span *ngIf="mosaics[m.id] != undefined">
+              <span style="color: green;"><b>+{{m.quantity}}</b> {{mosaics[m.id].unit}}</span>
+              <p style="font-family: monospace;">({{mosaics[m.id].name}} / ID:{{m.id.toUpperCase()}})</p>
+            </span>
+          </p>
+        </span>
+      </button>
+    </ion-card>
+  </ion-list>
+
+  <ion-list *ngSwitchCase="'unconfirmed'">
+    <ion-card *ngFor="let tx of ptxs">
+      <button ion-item>
+        <p style="font-size: 70%;">{{tx.date}}</p>
+        <p>{{tx.sender}}</p>
+        <p>{{tx.quantity}}</p>
+        <span *ngIf="tx.type=='outgoing'">
+          <p *ngFor="let m of tx.mosaics">
+            <span *ngIf="mosaics[m.id] != undefined">
+              <span style="color: crimson;"><b>-{{m.quantity}}</b> {{mosaics[m.id].unit}}</span>
+              <p style="font-family: monospace;">({{mosaics[m.id].name}} / ID:{{m.id.toUpperCase()}})</p>
+            </span>
+          </p>
+        </span>
+        <span *ngIf="tx.type=='incoming'">
+          <p *ngFor="let m of tx.mosaics">
+            <span *ngIf="mosaics[m.id] != undefined">
+              <span style="color: green;"><b>+{{m.quantity}}</b> {{mosaics[m.id].unit}}</span>
+              <p style="font-family: monospace;">({{mosaics[m.id].name}} / ID:{{m.id.toUpperCase()}})</p>
+            </span>
+          </p>
+        </span>
+      </button>
+    </ion-card>
+  </ion-list>
+
+  <ion-list *ngSwitchCase="'gen'">
+    <ion-card *ngFor="let key of mosaic_keys" (click)="certinfo(key)">
+    <button ion-item>
+      <p style="font-family: monospace;">ID:{{key.toUpperCase()}}</p>
+      <h3>{{mosaics[key].name}} <span style="color: green;">{{mosaics[key].quantity}} {{mosaics[key].unit}}</span></h3>
+    </button>
+    </ion-card>
+  </ion-list>
+
+</div>
+
+</ion-content>

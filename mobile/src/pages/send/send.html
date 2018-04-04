@@ -1,0 +1,60 @@
+<!--
+  Generated template for the SendPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<!-- <ion-header>
+
+  <ion-navbar>
+    <ion-title>SendPage</ion-title>
+  </ion-navbar>
+
+</ion-header> -->
+
+
+<ion-content padding>
+
+<ion-list>
+
+  <ion-item>
+    <ion-label stacked>送信先</ion-label>
+    <ion-input type="text" [(ngModel)]="recipient" placeholder="QRコードをスキャン、またはタップして入力"></ion-input>
+    <button ion-button item-right outline item-end (click)="scan()">
+    	<ion-icon name="camera"></ion-icon></button>
+  </ion-item>
+  <ion-item>
+    <ion-label stacked>メッセージ</ion-label>
+    <ion-input type="text" [(ngModel)]="message" placeholder="メッセージを入力(任意)"></ion-input>
+  </ion-item>
+
+	<ion-list>
+	<ion-item>
+	<ion-label stacked>添付トークン</ion-label>
+	<ion-select [(ngModel)]="attachedMosaics" multiple="true" cancelText="キャンセル" okText="決定" placeholder="タップしてリストから選択">
+	  <ion-option *ngFor="let key of mosaic_keys" [value]="key" [selected]="false" interface="action-sheet">{{mosaics[key] === undefined ? "" : mosaics[key].name}}</ion-option>
+	</ion-select>
+	</ion-item>
+	</ion-list>
+
+	<ion-card *ngFor="let key2 of attachedMosaics; let i = index;">
+		<ion-card-content *ngIf="mosaics[key2] != undefined">
+		{{mosaics[key2].name}}<p style="font-family: monospace;">ID:{{key2.toUpperCase()}}</p><br>
+		{{mosaics[key2].description}}
+
+		<ion-item>
+	      <ion-label>数量 ({{mosaics[key2].unit}})</ion-label>
+	      <ion-input type="number" [(ngModel)]="attachedMosaicsQuantity[key2]"></ion-input>
+		</ion-item>
+		</ion-card-content>
+
+	</ion-card>
+
+
+  <button ion-button full (click)="send()" [disabled]="!isenabled">送信</button>
+
+
+</ion-list>
+
+
+</ion-content>
